@@ -1,55 +1,86 @@
 ﻿using System;
 using System.Windows.Forms;
-using Reed_Muller.Logic;
-using Encoder = Reed_Muller.Logic.Encoder;
-using Decoder = Reed_Muller.Logic.Decoder;
+using Reed_Muller.Coding;
+using Encoder = Reed_Muller.Coding.Encoder;
+using Decoder = Reed_Muller.Coding.Decoder;
+using Reed_Muller.Views;
+using Reed_Muller.Utils;
+using Reed_Muller.Models;
+using System.Threading;
 
 namespace Reed_Muller
 {
     public partial class TextView : UserControl
     {
         private int M { get; set; }
+        private readonly ProbabilityPanel probabilityPanel = new ProbabilityPanel();
+        public string SentEncodedResult { get; set; }
+        public string SentNotEncodedResult { get; set; }
         public TextView(int m)
         {
             InitializeComponent();
-            pInput.Minimum = 0.00000m;
-            pInput.DecimalPlaces = 5;
-            pInput.Increment = 0.00001m;
-            pInput.Maximum = 1;
+            probabilityPanel.SendBtn.Click += SendBtn_Click;
+            pPanel.Controls.Add(probabilityPanel);
             M = m;
         }
 
+        /// <summary>
+        /// When "Send" button is clicked, a new thread is run not to block the main thread. 
+        /// "Send" button is disabled until the thread finished its job.
+        /// Input text is converted to vectors, which are sent through the channel with provided
+        /// error probability p. Text is sent two ways - encoded and later decoded after receiving it
+        /// from the channel and not encoded. 
+        /// </summary>
         private void SendBtn_Click(object sender, EventArgs e)
         {
-            if(messageBox.Text.Length == 0)
-            { 
-                encodedTextBox.Text = "";
-                messageTextBox.Text = "";
-                return;
-            }
-            var p = decimal.ToDouble(Math.Truncate(pInput.Value * 100000m) / 100000m);
-            var textToBinary = ConversionUtils.CovertStringToBinaryArray(messageBox.Text);
-
-            var encodedText = Encoder.EncodeBinarySequence(textToBinary, M, out int additionalBitCount);
-
-            var receivedEncodedText = Channel.SendBinaryMessage(encodedText, p, out _);
-            var receivedMessage = Channel.SendBinaryMessage(textToBinary, p, out _);
-
-            var decodedText = Decoder.DecodeBinarySequence(receivedEncodedText, M);
-
-            var sentEncodedResult = ConversionUtils.ConvertBinaryArrayToString(decodedText, additionalBitCount);
-            var sentMessageResult = ConversionUtils.ConvertBinaryArrayToString(receivedMessage, 0);
-
-            encodedTextBox.Text = sentEncodedResult;
-            messageTextBox.Text = sentMessageResult;
-        }
-
-        private void PValueInput_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar.Equals('.') || e.KeyChar.Equals(','))
+            probabilityPanel.SendBtn.Enabled = false;
+            new Thread(() =>
             {
-                e.KeyChar = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.ToCharArray()[0];
-            }
+                // If no text is provided, cancel further processes
+                if (messageBox.Text.Length == 0)
+                {
+                    BeginInvoke((Action)(() =>
+                    {
+                        encodedTextBox.Text = "";
+                        notEncodedTextBox.Text = "";
+                        probabilityPanel.SendBtn.Enabled = true;
+                        return;
+                    }));
+                }
+
+                var p = probabilityPanel.P;
+                var textToBinary = ConversionUtils.CovertStringToBinaryArray(messageBox.Text);
+                var inputTextVector = new Vector(textToBinary);
+
+                // Handling 'out of memory' failure
+                try
+                {
+                    // Ecode input text vectors
+                    var encodedTextVectors = Encoder.EncodeBinarySequence(inputTextVector, M, out int additionalBitCount);
+
+                    // Sent (not)encoded text vectors through the channel
+                    var receivedEncodedTextVector = Channel.SendBinaryMessage(encodedTextVectors, p, out _);
+                    var receivedNotEncodedTextVector = Channel.SendBinaryMessage(inputTextVector, p, out _);
+
+                    // Decoded received encoded text vector
+                    var decodedText = Decoder.DecodeBinarySequence(receivedEncodedTextVector, M);
+
+                    SentEncodedResult = ConversionUtils.ConvertBinaryArrayToString(decodedText.Data, additionalBitCount);
+                    SentNotEncodedResult = ConversionUtils.ConvertBinaryArrayToString(receivedNotEncodedTextVector.Data, 0);
+                }
+                catch (OutOfMemoryException)
+                {
+                    MessageBox.Show("System is out of memory!");
+                    return;
+                }
+
+                BeginInvoke((Action)(()=>{
+                    encodedTextBox.Text = SentNotEncodedResult;
+                    notEncodedTextBox.Text = SentNotEncodedResult;
+                    probabilityPanel.SendBtn.Enabled = true;
+                }));
+            }).Start();
         }
+
     }
 }

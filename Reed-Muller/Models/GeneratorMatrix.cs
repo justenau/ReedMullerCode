@@ -1,29 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Reed_Muller.Logic.Matrixes
+namespace Reed_Muller.Models
 {
     public static class GeneratorMatrix
     {
-
-        public static Dictionary<int, int[,]> GeneratorMatrixes { get; set; }
-
-        static GeneratorMatrix()
-        {
-            GeneratorMatrixes = new Dictionary<int, int[,]>();
-            RefreshMatrixes();
-        }
-
-        /// <summary>
-        /// Return generator matrix for provided parameter m
-        /// </summary>
-        /// <param name="m">Code parameter m</param>
-        /// <returns>Generator matrix for parameter m</returns>
-        public static int[,] GetGeneratorMatrix (int m)
-        {
-            GeneratorMatrixes.TryGetValue(m, out int[,] matrix);
-            return matrix ?? CalculateGeneratorMatrix(m);
-        }
+        public static Dictionary<int, int[,]> GeneratorMatrixes { get; set; } = new Dictionary<int, int[,]>();
 
         /// <summary>
         /// Calculate matrix dimensions (row and column count) based on provided parameter m
@@ -59,43 +41,48 @@ namespace Reed_Muller.Logic.Matrixes
             // Get value of matrix G(1,m-1)
             GeneratorMatrixes.TryGetValue(m - 1, out int[,] lowerMatrix);
 
-            // Get dimensions of matrixes m and m-1
+            // Get dimensions of matrixes G(1,m) and G(1,m-1)
             var (rows, columns) = GetMatrixDimensions(m);
-            var lowerMatrixDimensions = GetMatrixDimensions(m - 1);
+            var (lowerMatrixRows, lowerMatrixColumns) = GetMatrixDimensions(m - 1);
 
             var newMatrix = new int[rows, columns];
 
             // Fill part of generator matrix G(1,m) with G(1,m-1) values
-            for (int i=0; i < lowerMatrixDimensions.rows; i++)
+            for (int i=0; i < lowerMatrixRows; i++)
             {
-                for(int j=0; j<lowerMatrixDimensions.columns; j++)
+                for(int j=0; j<lowerMatrixColumns; j++)
                 {
                     newMatrix[i, j] = lowerMatrix[i, j];
-                    newMatrix[i, lowerMatrixDimensions.columns + j] = lowerMatrix[i, j];
+                    newMatrix[i, lowerMatrixColumns + j] = lowerMatrix[i, j];
                 }
             }
 
             // Fill last row of G(1,m)
-            for (int i = 0; i<lowerMatrixDimensions.columns*2; i++)
+            for (int i = 0; i<lowerMatrixColumns*2; i++)
             {
-                newMatrix[rows - 1, i] = i< lowerMatrixDimensions.columns ? 0 : 1;
+                newMatrix[rows - 1, i] = i< lowerMatrixColumns ? 0 : 1;
             }
 
             // Save new generator matrix
             GeneratorMatrixes.Add(m, newMatrix);
             return newMatrix;
-
         }
 
         /// <summary>
-        /// Clears all previously generated matrixes which will not be used after changing M parameters value.
-        /// This helps to prevent memory leaks.
+        /// Clears all previously generated matrixes which will not be used after 
+        /// changing m parameters value to prevent memory leaks.
         /// Also it initializes G(1,1) matrix because it will be used recursively later
+        /// and G(1,m) matrix if m is provided;
         /// </summary>
-        public static void RefreshMatrixes()
+        /// <param name="m"></param>
+        public static void PrepareMatrixes(int m)
         {
             GeneratorMatrixes.Clear();
             GeneratorMatrixes.Add(1, new int[2, 2] { { 1, 1 }, { 0, 1 } });
+            if (m > 1)
+            {
+                CalculateGeneratorMatrix(m);
+            }
         }
     }
 }

@@ -1,52 +1,42 @@
-﻿using Reed_Muller.Logic.Matrixes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
 namespace Reed_Muller
 {
     public partial class MainView : Form
     {
-        private Form mainForm;
-        private int m { get; set; }
+        private readonly Form mainForm;
+        private int M { get; set; }
 
         public MainView(Form mainForm, int m)
         {
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.FixedDialog;
             this.mainForm = mainForm;
-            this.m = m;
+            M = m;
         }
 
         private void MainView_FormClosed(object sender, FormClosedEventArgs e)
         {
             mainForm.Show();
-            GeneratorMatrix.RefreshMatrixes();
-            HadamardTransformMatrix.RefreshMatrixes();
         }
 
-        private void vectorBtn_Click(object sender, EventArgs e)
+        private void VectorBtn_Click(object sender, EventArgs e)
         {
             panel.Controls.Clear();
-            panel.Controls.Add(new VectorView(m));
+            panel.Controls.Add(new VectorView(M));
         }
 
-        private void textBtn_Click(object sender, EventArgs e)
+        private void TextBtn_Click(object sender, EventArgs e)
         {
             panel.Controls.Clear();
-            panel.Controls.Add(new TextView(m));
+            panel.Controls.Add(new TextView(M));
         }
 
-        private void imageBtn_Click(object sender, EventArgs e)
+        private void ImageBtn_Click(object sender, EventArgs e)
         {
             panel.Controls.Clear();
-            panel.Controls.Add(new ImageView(m));
+            panel.Controls.Add(new ImageView(M));
         }
     }
 }

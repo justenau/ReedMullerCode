@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Reed_Muller.Models;
+using System;
 using System.Collections.Generic;
 
-namespace Reed_Muller.Logic
+namespace Reed_Muller.Coding
 {
     public static class Channel
     {
@@ -14,20 +15,20 @@ namespace Reed_Muller.Logic
         /// <param name="p">Error probability (0<=p<=1)</param>
         /// <param name="distortedPlaces">Indexes where distortion happened in the "sent" message</param>
         /// <returns>Initial message vector but with possible distortion</returns>
-        public static int[] SendBinaryMessage (int[] message, double p, out List<int> distortedPlaces)
+        public static Vector SendBinaryMessage (Vector message, double p, out List<int> distortedPlaces)
         {
-            var distortedMessage = new int[message.Length];
+            var distortedMessage = new Vector(message.Length);
             distortedPlaces = new List<int>();
             for(int i = 0; i<message.Length; i++)
             {
                 var randomValue = random.NextDouble();
                 if (randomValue < p)
                 {
-                    distortedMessage[i] = message[i] == 0 ? 1 : 0;
+                    distortedMessage.Data[i] = message.Data[i] == 0 ? 1 : 0;
                     distortedPlaces.Add(i + 1);
                 } else
                 {
-                    distortedMessage[i] = message[i];
+                    distortedMessage.Data[i] = message.Data[i];
                 }
             }
             return distortedMessage;
@@ -41,9 +42,9 @@ namespace Reed_Muller.Logic
         /// <param name="p">Distortion probability</param>
         /// <param name="distortedPlaces">Indexes where distortion happened in the "sent" message</param>
         /// <returns>List of initial vectors but with possible distortions </returns>
-        public static List<int[]> SendBinaryMessage (List<int[]> message, double p, out List<int> distortedPlaces)
+        public static List<Vector> SendBinaryMessage (List<Vector> message, double p, out List<int> distortedPlaces)
         {
-            var result = new List<int[]>();
+            var result = new List<Vector>();
             distortedPlaces = new List<int>();
             foreach(var m in message)
             {

@@ -46,13 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logic\Channel.cs" />
-    <Compile Include="Logic\ConversionUtils.cs" />
-    <Compile Include="Logic\Decoder.cs" />
-    <Compile Include="Logic\Encoder.cs" />
-    <Compile Include="Logic\Matrixes\GeneratorMatrix.cs" />
-    <Compile Include="Logic\Matrixes\HadamardTransformMatrix.cs" />
-    <Compile Include="Logic\Matrixes\MatrixUtils.cs" />
+    <Compile Include="Coding\Channel.cs" />
+    <Compile Include="Utils\ConversionUtils.cs" />
+    <Compile Include="Coding\Decoder.cs" />
+    <Compile Include="Coding\Encoder.cs" />
+    <Compile Include="Models\GeneratorMatrix.cs" />
+    <Compile Include="Models\HadamardTransformMatrix.cs" />
+    <Compile Include="Utils\MatrixUtils.cs" />
+    <Compile Include="Models\Vector.cs" />
     <Compile Include="Views\ConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +73,12 @@
     </Compile>
     <Compile Include="Views\MainView.Designer.cs">
       <DependentUpon>MainView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProbabilityPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\ProbabilityPanel.Designer.cs">
+      <DependentUpon>ProbabilityPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\TextView.cs">
       <SubType>UserControl</SubType>
@@ -103,6 +110,9 @@
     <EmbeddedResource Include="Views\MainView.resx">
       <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\ProbabilityPanel.resx">
+      <DependentUpon>ProbabilityPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\TextView.resx">
       <DependentUpon>TextView.cs</DependentUpon>
     </EmbeddedResource>
@@ -122,5 +132,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,4 @@
-﻿using Reed_Muller.Logic.Matrixes;
+﻿using Reed_Muller.Models;
 using System;
 using System.Windows.Forms;
 
@@ -16,14 +16,17 @@ namespace Reed_Muller
             mValue.Minimum = 1;
             mValue.DecimalPlaces = 0;
         }
-
-        private void continueBtn_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Clear old matrixes and calculate generator and identity matrixes before launching next view.
+        /// </summary>
+        private void ContinueBtn_Click(object sender, EventArgs e)
         {
-            // Calculate matrix before launching program
-            GeneratorMatrix.GetGeneratorMatrix(decimal.ToInt32(mValue.Value));
-            //var a = HadamardTransformMatrix.GetTransformedMatrix(3, 3);
-            new MainView(this, decimal.ToInt32(mValue.Value)).Show();
-            this.Hide();
+            var m = decimal.ToInt32(mValue.Value);
+            GeneratorMatrix.PrepareMatrixes(m);
+            HadamardTransformMatrix.PrepareHadamardTransformMatrixes(m);
+
+            new MainView(this, m).Show();
+            Hide();
         }
     }
 }

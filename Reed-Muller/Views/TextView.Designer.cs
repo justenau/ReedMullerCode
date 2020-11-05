@@ -30,14 +30,11 @@
         {
             this.messageBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.sendMessageBtn = new System.Windows.Forms.Button();
-            this.pInput = new System.Windows.Forms.NumericUpDown();
-            this.label = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.messageTextBox = new System.Windows.Forms.TextBox();
+            this.notEncodedTextBox = new System.Windows.Forms.TextBox();
             this.encodedTextBox = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pInput)).BeginInit();
+            this.pPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // messageBox
@@ -56,33 +53,6 @@
             this.label1.Size = new System.Drawing.Size(273, 32);
             this.label1.TabIndex = 1;
             this.label1.Text = "Provide text to send:";
-            // 
-            // sendMessageBtn
-            // 
-            this.sendMessageBtn.Location = new System.Drawing.Point(335, 487);
-            this.sendMessageBtn.Name = "sendMessageBtn";
-            this.sendMessageBtn.Size = new System.Drawing.Size(184, 67);
-            this.sendMessageBtn.TabIndex = 11;
-            this.sendMessageBtn.Text = "Send";
-            this.sendMessageBtn.UseVisualStyleBackColor = true;
-            this.sendMessageBtn.Click += new System.EventHandler(this.SendBtn_Click);
-            // 
-            // pInput
-            // 
-            this.pInput.Location = new System.Drawing.Point(29, 503);
-            this.pInput.Name = "pInput";
-            this.pInput.Size = new System.Drawing.Size(266, 38);
-            this.pInput.TabIndex = 10;
-            this.pInput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.PValueInput_KeyPress);
-            // 
-            // label
-            // 
-            this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(22, 438);
-            this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(272, 32);
-            this.label.TabIndex = 9;
-            this.label.Text = "Provide p (0<=p<=1)";
             // 
             // label2
             // 
@@ -104,11 +74,11 @@
             // 
             // messageTextBox
             // 
-            this.messageTextBox.Location = new System.Drawing.Point(23, 1099);
-            this.messageTextBox.Multiline = true;
-            this.messageTextBox.Name = "messageTextBox";
-            this.messageTextBox.Size = new System.Drawing.Size(2454, 314);
-            this.messageTextBox.TabIndex = 0;
+            this.notEncodedTextBox.Location = new System.Drawing.Point(23, 1099);
+            this.notEncodedTextBox.Multiline = true;
+            this.notEncodedTextBox.Name = "messageTextBox";
+            this.notEncodedTextBox.Size = new System.Drawing.Size(2454, 314);
+            this.notEncodedTextBox.TabIndex = 0;
             // 
             // encodedTextBox
             // 
@@ -118,22 +88,26 @@
             this.encodedTextBox.Size = new System.Drawing.Size(2454, 314);
             this.encodedTextBox.TabIndex = 0;
             // 
+            // pPanel
+            // 
+            this.pPanel.Location = new System.Drawing.Point(23, 423);
+            this.pPanel.Name = "pPanel";
+            this.pPanel.Size = new System.Drawing.Size(517, 161);
+            this.pPanel.TabIndex = 14;
+            // 
             // TextView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.Controls.Add(this.messageTextBox);
+            this.Controls.Add(this.pPanel);
+            this.Controls.Add(this.notEncodedTextBox);
             this.Controls.Add(this.encodedTextBox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.sendMessageBtn);
-            this.Controls.Add(this.pInput);
-            this.Controls.Add(this.label);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.messageBox);
             this.Name = "TextView";
             this.Size = new System.Drawing.Size(2577, 1607);
-            ((System.ComponentModel.ISupportInitialize)(this.pInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -143,12 +117,10 @@
 
         private System.Windows.Forms.TextBox messageBox;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button sendMessageBtn;
-        private System.Windows.Forms.NumericUpDown pInput;
-        private System.Windows.Forms.Label label;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox messageTextBox;
+        private System.Windows.Forms.TextBox notEncodedTextBox;
         private System.Windows.Forms.TextBox encodedTextBox;
+        private System.Windows.Forms.Panel pPanel;
     }
 }

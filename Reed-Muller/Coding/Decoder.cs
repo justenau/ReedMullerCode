@@ -1,25 +1,25 @@
-﻿using Reed_Muller.Logic.Matrixes;
+﻿using Reed_Muller.Models;
+using Reed_Muller.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Reed_Muller.Logic
+namespace Reed_Muller.Coding
 {
     public static class Decoder
     {
 
-        public static int[] Decode (int[] vector, int m)
+        public static Vector DecodeSingleVector (Vector vector, int m)
         {
-            var transformedVector = vector.Select(x => x == 0 ? -1 : x).ToArray();
+            var transformedVector = vector.TranformBitsFromZeroToMinusOne();
+
             for(int i=1; i<=m; i++)
             {
                 var calculationMatrix = HadamardTransformMatrix.GetTransformedMatrix(i, m);
                 transformedVector = MatrixUtils.MutltiplyVectorWithMatrix(transformedVector, calculationMatrix, Convert.ToInt32(Math.Pow(2, m)));
             }
-            var vectorWithAbsValues = transformedVector.Select(x => Math.Abs(x)).ToList();
-            var maxPosition = vectorWithAbsValues.IndexOf(vectorWithAbsValues.Max());
+            var vectorDataAbsValues = transformedVector.Data.Select(x => Math.Abs(x)).ToList();
+            var maxPosition = vectorDataAbsValues.IndexOf(vectorDataAbsValues.Max());
             var reversedBinaryValue = Convert.ToString(maxPosition, 2);
 
             var zerosToAddCount = m - reversedBinaryValue.Length;
@@ -27,22 +27,22 @@ namespace Reed_Muller.Logic
             {
                 reversedBinaryValue = new String('0', zerosToAddCount) + reversedBinaryValue;
             }
-            reversedBinaryValue+=transformedVector[maxPosition] < 0 ? '0' : '1';
+            reversedBinaryValue+=transformedVector.Data[maxPosition] < 0 ? '0' : '1';
             var binaryValue = reversedBinaryValue.ToCharArray();
             Array.Reverse(binaryValue);
-            var decodedVector = new string(binaryValue).Select(n => int.Parse(n.ToString())).ToArray();
-            return decodedVector;
+            var decodedVectorData = ConversionUtils.ConvertStringToIntegerArray(new string(binaryValue));
+            return new Vector(decodedVectorData);
         }
 
-        public static int[] DecodeBinarySequence (List<int[]> vectors, int m)
+        public static Vector DecodeBinarySequence (List<Vector> vectors, int m)
         {
-            var result = new List<int[]>();
+            var result = new List<Vector>();
             foreach(var vector in vectors)
             {
-                var decoded = Decode(vector, m);
+                var decoded = vector.Decode(m);
                 result.Add(decoded);
             };
-            return result.SelectMany(r => r).ToArray();
+            return new Vector(result.Select(v=>v.Data).SelectMany(r => r).ToArray());
         }
     }
 }

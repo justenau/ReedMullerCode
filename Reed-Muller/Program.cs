@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Reed_Muller
@@ -17,7 +14,7 @@ namespace Reed_Muller
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             try { Application.Run(new ConfigurationForm()); }
-            catch(OutOfMemoryException e)
+            catch(OutOfMemoryException)
             {
                 MessageBox.Show("System is out of memory");
             }

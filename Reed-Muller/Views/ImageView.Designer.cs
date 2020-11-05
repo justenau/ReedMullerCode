@@ -30,17 +30,14 @@
         {
             this.uploadBtn = new System.Windows.Forms.Button();
             this.uploadedPic = new System.Windows.Forms.PictureBox();
-            this.sendImageBtn = new System.Windows.Forms.Button();
             this.encodedPicture = new System.Windows.Forms.PictureBox();
             this.notEncodedPicture = new System.Windows.Forms.PictureBox();
             this.encodedLabel = new System.Windows.Forms.Label();
             this.notEncodedLabel = new System.Windows.Forms.Label();
-            this.pInput = new System.Windows.Forms.NumericUpDown();
-            this.pLabel = new System.Windows.Forms.Label();
+            this.pPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.uploadedPic)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.encodedPicture)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.notEncodedPicture)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pInput)).BeginInit();
             this.SuspendLayout();
             // 
             // uploadBtn
@@ -58,25 +55,16 @@
             this.uploadedPic.Location = new System.Drawing.Point(41, 163);
             this.uploadedPic.Name = "uploadedPic";
             this.uploadedPic.Size = new System.Drawing.Size(904, 509);
+            this.uploadedPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.uploadedPic.TabIndex = 1;
             this.uploadedPic.TabStop = false;
-            // 
-            // sendImageBtn
-            // 
-            this.sendImageBtn.Location = new System.Drawing.Point(47, 828);
-            this.sendImageBtn.Name = "sendImageBtn";
-            this.sendImageBtn.Size = new System.Drawing.Size(225, 83);
-            this.sendImageBtn.TabIndex = 2;
-            this.sendImageBtn.Text = "Send Image";
-            this.sendImageBtn.UseVisualStyleBackColor = true;
-            this.sendImageBtn.Visible = false;
-            this.sendImageBtn.Click += new System.EventHandler(this.SendImageBtn_Click);
             // 
             // encodedPicture
             // 
             this.encodedPicture.Location = new System.Drawing.Point(1528, 163);
             this.encodedPicture.Name = "encodedPicture";
             this.encodedPicture.Size = new System.Drawing.Size(915, 509);
+            this.encodedPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.encodedPicture.TabIndex = 3;
             this.encodedPicture.TabStop = false;
             this.encodedPicture.Visible = false;
@@ -86,6 +74,7 @@
             this.notEncodedPicture.Location = new System.Drawing.Point(1528, 927);
             this.notEncodedPicture.Name = "notEncodedPicture";
             this.notEncodedPicture.Size = new System.Drawing.Size(915, 509);
+            this.notEncodedPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.notEncodedPicture.TabIndex = 4;
             this.notEncodedPicture.TabStop = false;
             this.notEncodedPicture.Visible = false;
@@ -110,35 +99,22 @@
             this.notEncodedLabel.Text = "Image sent without encoding";
             this.notEncodedLabel.Visible = false;
             // 
-            // pInput
+            // pPanel
             // 
-            this.pInput.Location = new System.Drawing.Point(47, 760);
-            this.pInput.Name = "pInput";
-            this.pInput.Size = new System.Drawing.Size(266, 38);
-            this.pInput.TabIndex = 13;
-            this.pInput.Visible = false;
-            // 
-            // pLabel
-            // 
-            this.pLabel.AutoSize = true;
-            this.pLabel.Location = new System.Drawing.Point(40, 709);
-            this.pLabel.Name = "pLabel";
-            this.pLabel.Size = new System.Drawing.Size(272, 32);
-            this.pLabel.TabIndex = 12;
-            this.pLabel.Text = "Provide p (0<=p<=1)";
-            this.pLabel.Visible = false;
+            this.pPanel.Location = new System.Drawing.Point(41, 710);
+            this.pPanel.Name = "pPanel";
+            this.pPanel.Size = new System.Drawing.Size(517, 161);
+            this.pPanel.TabIndex = 14;
             // 
             // ImageView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.Controls.Add(this.pInput);
-            this.Controls.Add(this.pLabel);
+            this.Controls.Add(this.pPanel);
             this.Controls.Add(this.notEncodedLabel);
             this.Controls.Add(this.encodedLabel);
             this.Controls.Add(this.notEncodedPicture);
             this.Controls.Add(this.encodedPicture);
-            this.Controls.Add(this.sendImageBtn);
             this.Controls.Add(this.uploadedPic);
             this.Controls.Add(this.uploadBtn);
             this.Name = "ImageView";
@@ -146,7 +122,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.uploadedPic)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.encodedPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.notEncodedPicture)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -156,12 +131,10 @@
 
         private System.Windows.Forms.Button uploadBtn;
         private System.Windows.Forms.PictureBox uploadedPic;
-        private System.Windows.Forms.Button sendImageBtn;
         private System.Windows.Forms.PictureBox encodedPicture;
         private System.Windows.Forms.PictureBox notEncodedPicture;
         private System.Windows.Forms.Label encodedLabel;
         private System.Windows.Forms.Label notEncodedLabel;
-        private System.Windows.Forms.NumericUpDown pInput;
-        private System.Windows.Forms.Label pLabel;
+        private System.Windows.Forms.Panel pPanel;
     }
 }

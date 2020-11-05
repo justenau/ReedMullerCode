@@ -43,7 +43,7 @@
             this.vectorBtn.TabIndex = 0;
             this.vectorBtn.Text = "Vector";
             this.vectorBtn.UseVisualStyleBackColor = true;
-            this.vectorBtn.Click += new System.EventHandler(this.vectorBtn_Click);
+            this.vectorBtn.Click += new System.EventHandler(this.VectorBtn_Click);
             // 
             // textBtn
             // 
@@ -53,7 +53,7 @@
             this.textBtn.TabIndex = 1;
             this.textBtn.Text = "Text";
             this.textBtn.UseVisualStyleBackColor = true;
-            this.textBtn.Click += new System.EventHandler(this.textBtn_Click);
+            this.textBtn.Click += new System.EventHandler(this.TextBtn_Click);
             // 
             // imageBtn
             // 
@@ -63,7 +63,7 @@
             this.imageBtn.TabIndex = 2;
             this.imageBtn.Text = "Image";
             this.imageBtn.UseVisualStyleBackColor = true;
-            this.imageBtn.Click += new System.EventHandler(this.imageBtn_Click);
+            this.imageBtn.Click += new System.EventHandler(this.ImageBtn_Click);
             // 
             // label1
             // 

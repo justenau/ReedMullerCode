@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using Reed_Muller.Logic;
-using Decoder = Reed_Muller.Logic.Decoder;
+using Reed_Muller.Coding;
+using Reed_Muller.Views;
+using Reed_Muller.Models;
+using Reed_Muller.Utils;
 
 namespace Reed_Muller
 {
@@ -13,22 +13,26 @@ namespace Reed_Muller
     {
         private int M { get; set; }
         private int VectorLength { get; set; }
-        private int[] EncodedVector { get; set; }
-        private int[] ReceivedVector { get; set; }
+        private Vector EncodedVector { get; set; }
+        private Vector ReceivedVector { get; set; }
+
+        private readonly ProbabilityPanel panel = new ProbabilityPanel();
 
         public VectorView(int m)
         {
             InitializeComponent();
+            panel.SendBtn.Click += SendBtn_Click;
+            panel.ChangeComponentVisibility(false);
+            pPanel.Controls.Add(panel);
             M = m;
             VectorLength = m + 1;
-            pValueInput.Minimum = 0.00000m;
-            pValueInput.DecimalPlaces = 5;
-            pValueInput.Increment = 0.00001m;
-            pValueInput.Maximum = 1;
             vectorLengthLabel.Text = VectorLength.ToString();
             inputField.MaxLength = VectorLength;
         }
 
+        /// <summary>
+        /// Convert input text to vector and encode it. Handle cases of incorrect format input.
+        /// </summary>
         private void EncodeBtn_Click(object sender, EventArgs e)
         {
             var input = inputField.Text;
@@ -42,27 +46,33 @@ namespace Reed_Muller
                 MessageBox.Show($"Vector can contain only 0 or 1.");
                 return;
             }
-
-            EncodedVector = Encoder.EncodeSingleVector(input.Select(n => int.Parse(n.ToString())).ToArray(), M);
-            encodedVectorLabel.Text = string.Join("", EncodedVector);
+            var inputVector = new Vector(input);
+            EncodedVector = inputVector.Encode(M);
+            encodedVectorLabel.Text = ConversionUtils.ConvertIntegerArrayToString(EncodedVector.Data);
             ChangeEncodingFieldVisibility(true);
+            ChangeDecodedFieldVisibility(false);
             ChangeDecodingFieldVisibility(false);
-            ChangeDecodingFieldVisibility(false);
-
         }
 
+        /// <summary>
+        /// Send encoded vector through the channel with provided error probability p.
+        /// </summary>
         private void SendBtn_Click(object sender, EventArgs e)
         {
-            var p = decimal.ToDouble(Math.Truncate(pValueInput.Value * 100000m) / 100000m);
+            var p = panel.P;
             ReceivedVector = Channel.SendBinaryMessage(EncodedVector, p, out List<int> distortedPlaces);
 
-            receivedVectorField.Text = ConversionUtils.ConvertIntegerArrayToString(ReceivedVector);
+            receivedVectorField.Text = ConversionUtils.ConvertIntegerArrayToString(ReceivedVector.Data);
             distortionPlaceholder.Text = string.Join(",", distortedPlaces);
             ChangeDecodingFieldVisibility(true);
             ChangeDecodedFieldVisibility(false);
 
         }
 
+        /// <summary>
+        /// Decode the vector which was received through the channel or altered by the user.
+        /// Handle cases where after user modifications vector length is incorrect or it contains other digits than 0s or 1s
+        /// </summary>
         private void DecodeBtn_Click(object sender, EventArgs e)
         {
             var vector = receivedVectorField.Text;
@@ -76,19 +86,17 @@ namespace Reed_Muller
                 MessageBox.Show($"Vector can contain only 0 or 1.");
                 return;
             }
-            var decodedVector = Decoder.Decode(ConversionUtils.ConvertStringToIntegerArray(vector), M);
-            decodedField.Text = ConversionUtils.ConvertIntegerArrayToString(decodedVector);
+            ReceivedVector.Data = ConversionUtils.ConvertStringToIntegerArray(vector);
+            var decodedVector = ReceivedVector.Decode(M);
+            decodedField.Text = ConversionUtils.ConvertIntegerArrayToString(decodedVector.Data);
             ChangeDecodedFieldVisibility(true);
         }
 
         private void ChangeEncodingFieldVisibility(bool isVisible)
         {
-            ChangeDecodingFieldVisibility(false);
             encodedLabel.Visible = isVisible;
             encodedVectorLabel.Visible = isVisible;
-            pLabel.Visible = isVisible;
-            pValueInput.Visible = isVisible;
-            sendBtn.Visible = isVisible;
+            panel.ChangeComponentVisibility(isVisible);
         }
 
         private void ChangeDecodingFieldVisibility(bool isVisible)
@@ -104,14 +112,6 @@ namespace Reed_Muller
         {
             decodedField.Visible = isVisible;
             decodedLabel.Visible = isVisible;
-        }
-
-        private void PValueInput_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar.Equals('.') || e.KeyChar.Equals(','))
-            {
-                e.KeyChar = System.Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator.ToCharArray()[0];
-            }
         }
     }
 }

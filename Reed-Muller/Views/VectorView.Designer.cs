@@ -40,11 +40,8 @@
             this.decodeBtn = new System.Windows.Forms.Button();
             this.decodedField = new System.Windows.Forms.TextBox();
             this.decodedLabel = new System.Windows.Forms.Label();
-            this.sendBtn = new System.Windows.Forms.Button();
-            this.pValueInput = new System.Windows.Forms.NumericUpDown();
-            this.pLabel = new System.Windows.Forms.Label();
             this.distortionPlaceholder = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pValueInput)).BeginInit();
+            this.pPanel = new System.Windows.Forms.Panel();
             this.SuspendLayout();
             // 
             // label1
@@ -163,35 +160,6 @@
             this.decodedLabel.Text = "Decoded value:";
             this.decodedLabel.Visible = false;
             // 
-            // sendBtn
-            // 
-            this.sendBtn.Location = new System.Drawing.Point(372, 719);
-            this.sendBtn.Name = "sendBtn";
-            this.sendBtn.Size = new System.Drawing.Size(184, 67);
-            this.sendBtn.TabIndex = 18;
-            this.sendBtn.Text = "Send";
-            this.sendBtn.UseVisualStyleBackColor = true;
-            this.sendBtn.Visible = false;
-            this.sendBtn.Click += new System.EventHandler(this.SendBtn_Click);
-            // 
-            // pValueInput
-            // 
-            this.pValueInput.Location = new System.Drawing.Point(66, 735);
-            this.pValueInput.Name = "pValueInput";
-            this.pValueInput.Size = new System.Drawing.Size(266, 38);
-            this.pValueInput.TabIndex = 17;
-            this.pValueInput.Visible = false;
-            // 
-            // pLabel
-            // 
-            this.pLabel.AutoSize = true;
-            this.pLabel.Location = new System.Drawing.Point(59, 670);
-            this.pLabel.Name = "pLabel";
-            this.pLabel.Size = new System.Drawing.Size(272, 32);
-            this.pLabel.TabIndex = 16;
-            this.pLabel.Text = "Provide p (0<=p<=1)";
-            this.pLabel.Visible = false;
-            // 
             // distortionPlaceholder
             // 
             this.distortionPlaceholder.Location = new System.Drawing.Point(61, 1302);
@@ -203,14 +171,19 @@
             this.distortionPlaceholder.TabIndex = 19;
             this.distortionPlaceholder.Visible = false;
             // 
+            // pPanel
+            // 
+            this.pPanel.Location = new System.Drawing.Point(57, 648);
+            this.pPanel.Name = "pPanel";
+            this.pPanel.Size = new System.Drawing.Size(517, 161);
+            this.pPanel.TabIndex = 20;
+            // 
             // VectorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(240F, 240F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.Controls.Add(this.pPanel);
             this.Controls.Add(this.distortionPlaceholder);
-            this.Controls.Add(this.sendBtn);
-            this.Controls.Add(this.pValueInput);
-            this.Controls.Add(this.pLabel);
             this.Controls.Add(this.decodedLabel);
             this.Controls.Add(this.decodedField);
             this.Controls.Add(this.decodeBtn);
@@ -225,7 +198,6 @@
             this.Controls.Add(this.label1);
             this.Name = "VectorView";
             this.Size = new System.Drawing.Size(2577, 1607);
-            ((System.ComponentModel.ISupportInitialize)(this.pValueInput)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,9 +217,7 @@
         private System.Windows.Forms.Button decodeBtn;
         private System.Windows.Forms.TextBox decodedField;
         private System.Windows.Forms.Label decodedLabel;
-        private System.Windows.Forms.Button sendBtn;
-        private System.Windows.Forms.NumericUpDown pValueInput;
-        private System.Windows.Forms.Label pLabel;
         private System.Windows.Forms.TextBox distortionPlaceholder;
+        private System.Windows.Forms.Panel pPanel;
     }
 }
