@@ -41,7 +41,8 @@ namespace Reed_Muller
             };
             if (opnfd.ShowDialog() == DialogResult.OK)
             {
-                UploadedImage = new Bitmap(opnfd.FileName);
+                var original = new Bitmap(opnfd.FileName);
+                UploadedImage = Utils.Utils.CompressImage(original);
                 uploadedPic.Image = UploadedImage;
                 panel.ChangeComponentVisibility(true);
                 ChangeReceivedControlsVisibility(false);
@@ -80,7 +81,7 @@ namespace Reed_Muller
                     var decoded = Decoder.DecodeBinarySequence(receivedEncoded, M);
 
                     DeconvertedNotEncoded = ConversionUtils.ConvertIntArrayToImage(bitmapHeader.Concat(receivedNotEncoded.Data).ToArray());
-                    DeconvertedNotEncoded = ConversionUtils.ConvertIntArrayToImage(bitmapHeader.Concat(decoded.Data).ToArray(), additionalBits);
+                    DeconvertedEncoded = ConversionUtils.ConvertIntArrayToImage(bitmapHeader.Concat(decoded.Data).ToArray(), additionalBits);
                 }
                 // Handling 'out of memory' failure
                 catch (OutOfMemoryException)
@@ -102,7 +103,7 @@ namespace Reed_Muller
             this.BeginInvoke((Action)(() =>
             {
                 notEncodedPicture.Image = DeconvertedNotEncoded;
-                encodedPicture.Image = DeconvertedNotEncoded;
+                encodedPicture.Image = DeconvertedEncoded;
                 panel.SendBtn.Enabled = true;
                 this.ChangeReceivedControlsVisibility(true);
             }));

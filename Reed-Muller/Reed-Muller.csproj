@@ -54,6 +54,7 @@
     <Compile Include="Models\HadamardTransformMatrix.cs" />
     <Compile Include="Utils\MatrixUtils.cs" />
     <Compile Include="Models\Vector.cs" />
+    <Compile Include="Utils\Utils.cs" />
     <Compile Include="Views\ConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>

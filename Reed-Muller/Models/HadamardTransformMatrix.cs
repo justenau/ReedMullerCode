@@ -82,7 +82,7 @@ namespace Reed_Muller.Models
         }
 
         /// <summary>
-        /// Does the first multiplication where identity matrix is multiplied with Hadamard matrix
+        /// Calculates first Kronecker product of the first identity and Hadamard matrixes
         /// </summary>
         /// <param name="identityMatrix">First multipland</param>
         /// <param name="transformedMatrix">Result is stored in this matrix</param>
@@ -105,7 +105,7 @@ namespace Reed_Muller.Models
         }
 
         /// <summary>
-        /// Does the second multiplication where the result matrix is multiplied with second identity matrix
+        /// Calculates Kronecker product of the result and second identity matrixes
         /// </summary>
         /// <param name="identityMatrix">Second multipland</param>
         /// <param name="firstTransformedMatrix">First multipland - result of the first transformation</param>

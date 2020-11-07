@@ -75,7 +75,7 @@ namespace Reed_Muller
                 }
 
                 BeginInvoke((Action)(()=>{
-                    encodedTextBox.Text = SentNotEncodedResult;
+                    encodedTextBox.Text = SentEncodedResult;
                     notEncodedTextBox.Text = SentNotEncodedResult;
                     probabilityPanel.SendBtn.Enabled = true;
                 }));
