@@ -54,16 +54,16 @@
             // 
             this.uploadedPic.Location = new System.Drawing.Point(41, 163);
             this.uploadedPic.Name = "uploadedPic";
-            this.uploadedPic.Size = new System.Drawing.Size(904, 509);
+            this.uploadedPic.Size = new System.Drawing.Size(500, 500);
             this.uploadedPic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.uploadedPic.TabIndex = 1;
             this.uploadedPic.TabStop = false;
             // 
             // encodedPicture
             // 
-            this.encodedPicture.Location = new System.Drawing.Point(1528, 163);
+            this.encodedPicture.Location = new System.Drawing.Point(1772, 154);
             this.encodedPicture.Name = "encodedPicture";
-            this.encodedPicture.Size = new System.Drawing.Size(915, 509);
+            this.encodedPicture.Size = new System.Drawing.Size(500, 500);
             this.encodedPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.encodedPicture.TabIndex = 3;
             this.encodedPicture.TabStop = false;
@@ -71,9 +71,9 @@
             // 
             // notEncodedPicture
             // 
-            this.notEncodedPicture.Location = new System.Drawing.Point(1528, 927);
+            this.notEncodedPicture.Location = new System.Drawing.Point(1772, 930);
             this.notEncodedPicture.Name = "notEncodedPicture";
-            this.notEncodedPicture.Size = new System.Drawing.Size(915, 509);
+            this.notEncodedPicture.Size = new System.Drawing.Size(500, 500);
             this.notEncodedPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.notEncodedPicture.TabIndex = 4;
             this.notEncodedPicture.TabStop = false;
