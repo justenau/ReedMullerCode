@@ -99,7 +99,7 @@ namespace Reed_Muller.Utils
             }
 
             ImageConverter imageConverter = new ImageConverter();
-            return imageConverter.ConvertFrom(bytes) as Image;
+            return imageConverter.ConvertFrom(bytes) as Bitmap;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Reed_Muller.Coding
             // Multiply vector with H matrixes and sum up the results to a single vector
             for(int i=1; i<=m; i++)
             {
-                var calculationMatrix = HadamardTransformMatrix.GetTransformedMatrix(i, m);
+                var calculationMatrix = HadamardTransformMatrix.GetTransformMatrix(i, m);
                 transformedVector = MatrixUtils.MutltiplyVectorWithMatrix(transformedVector, calculationMatrix, Convert.ToInt32(Math.Pow(2, m)));
             }
 

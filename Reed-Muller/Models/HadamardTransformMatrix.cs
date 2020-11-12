@@ -7,13 +7,13 @@ namespace Reed_Muller.Models
     {
         private static readonly int[,] HadamardMatrix;
         public static Dictionary<int, int[,]> IdentityMatrixes { get; set; }
-        public static Dictionary<int, int[,]> TransformedMatrixes { get; set; }
+        public static Dictionary<int, int[,]> TransformMatrixes { get; set; }
 
         static HadamardTransformMatrix()
         {
             HadamardMatrix = new int[2, 2] { { 1, 1 }, { 1, -1 } };
             IdentityMatrixes = new Dictionary<int, int[,]>();
-            TransformedMatrixes = new Dictionary<int, int[,]>();
+            TransformMatrixes = new Dictionary<int, int[,]>();
         }
 
 
@@ -39,15 +39,27 @@ namespace Reed_Muller.Models
         }
 
         /// <summary>
-        /// Returns transformed matrix H_m^i
+        /// Prepares all transform matrixes H_m^i for i<=m
+        /// </summary>
+        /// <param name="m">Code parameter m</param>
+        public static void PrepareTransformMatrixes(int m)
+        {
+            for (int i = 1; i <= m; i++)
+            {
+                GetTransformMatrix(i, m);
+            }
+        }
+
+        /// <summary>
+        /// Returns transform matrix H_m^i
         /// </summary>
         /// <param name="i">Matrix parameter i</param>
         /// <param name="m">Code parameter m</param>
-        /// <returns>Transformed matrix H_m^i</returns>
-        public static int[,] GetTransformedMatrix(int i, int m)
+        /// <returns>Transform matrix H_m^i</returns>
+        public static int[,] GetTransformMatrix(int i, int m)
         {
-            TransformedMatrixes.TryGetValue(i, out int[,] matrix);
-            return matrix ?? CalculateTransformedMatrix(i, m);
+            TransformMatrixes.TryGetValue(i, out int[,] matrix);
+            return matrix ?? CalculateTransformMatrix(i, m);
         }
 
         /// <summary>
@@ -57,7 +69,7 @@ namespace Reed_Muller.Models
         /// <param name="i">Matrix parameter i</param>
         /// <param name="m">Code parameter m</param>
         /// <returns>New generated transform matrix H_m^i</returns>
-        public static int [,] CalculateTransformedMatrix(int i, int m)
+        public static int [,] CalculateTransformMatrix(int i, int m)
         {
             // Get first multiplicand - identity matrix with 2^(m-i) rows/columns
             int firstIdentityMatrixDimension = Convert.ToInt32(Math.Pow(2, m - i));
@@ -77,7 +89,7 @@ namespace Reed_Muller.Models
             var finalMatrix = new int[dimension, dimension];
             ApplySecondTransformation(secondIdentityMatrix, firstTransformedMatrix, finalMatrix, firstTransformedMatrixDimension, secondIdentityMatrixDimension);
 
-            TransformedMatrixes.Add(i, finalMatrix);
+            TransformMatrixes.Add(i, finalMatrix);
             return finalMatrix;
         }
 
@@ -136,8 +148,9 @@ namespace Reed_Muller.Models
         public static void PrepareHadamardTransformMatrixes(int m)
         {
             IdentityMatrixes.Clear();
-            TransformedMatrixes.Clear();
+            TransformMatrixes.Clear();
             PrepareIdentityMatrixes(m);
+            PrepareTransformMatrixes(m);
         }
 
     }
